@@ -166,7 +166,12 @@ export function validateChallenge(
         ['layer', LAYER_MIN, LAYER_MAX],
       ] as const) {
         const numeric = Number(piece[key]);
-        if (!Number.isFinite(numeric) || numeric < min || numeric > max) {
+        if (
+          !Number.isFinite(numeric) ||
+          numeric < min ||
+          numeric > max ||
+          (key === 'layer' && !Number.isInteger(numeric))
+        ) {
           errors.push(
             `${label} piece ${index + 1} has an out-of-range ${key}.`,
           );

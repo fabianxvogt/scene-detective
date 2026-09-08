@@ -79,6 +79,11 @@ assert.equal(
   'layers above the player control range must be rejected',
 );
 assert.equal(
+  validateChallenge({ ...challenge, pieces: [{ ...start, layer: 2.5 }] }).valid,
+  false,
+  'fractional layers must be rejected instead of rounded',
+);
+assert.equal(
   normalizePiece({ ...start, layer: -2 }).layer,
   -2,
   'accepted lower layer bound must remain exact',
