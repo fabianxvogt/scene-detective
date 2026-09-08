@@ -52,6 +52,31 @@ assert.equal(
   false,
   'alpha outside 0–1 must be rejected',
 );
+const transparentChallenge = {
+  ...challenge,
+  pieces: [{ ...start, alpha: 0 }],
+  targetPieces: [{ ...target, alpha: 0 }],
+};
+const transparentRoundTrip = validateChallengeText(
+  JSON.stringify(transparentChallenge),
+);
+assert.equal(
+  transparentRoundTrip.valid,
+  true,
+  'transparent challenge JSON must import',
+);
+if (transparentRoundTrip.valid) {
+  assert.equal(
+    transparentRoundTrip.challenge.pieces[0].alpha,
+    0,
+    'transparent start alpha must survive export/import',
+  );
+  assert.equal(
+    transparentRoundTrip.challenge.targetPieces[0].alpha,
+    0,
+    'transparent target alpha must survive export/import',
+  );
+}
 
 const roundTrip = validateChallengeText(JSON.stringify(challenge));
 assert.equal(roundTrip.valid, true, 'exported JSON must reopen');
