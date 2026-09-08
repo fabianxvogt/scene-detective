@@ -62,6 +62,32 @@ assert.equal(
   false,
   'radius above the canonical renderer range must be rejected',
 );
+assert.equal(
+  validateChallenge({ ...challenge, pieces: [{ ...start, kind: 'circle' }] })
+    .valid,
+  false,
+  'start/target primitive kind mismatches must be rejected',
+);
+assert.equal(
+  validateChallenge({ ...challenge, pieces: [{ ...start, layer: -3 }] }).valid,
+  false,
+  'layers below the player control range must be rejected',
+);
+assert.equal(
+  validateChallenge({ ...challenge, pieces: [{ ...start, layer: 9 }] }).valid,
+  false,
+  'layers above the player control range must be rejected',
+);
+assert.equal(
+  normalizePiece({ ...start, layer: -2 }).layer,
+  -2,
+  'accepted lower layer bound must remain exact',
+);
+assert.equal(
+  normalizePiece({ ...start, layer: 8 }).layer,
+  8,
+  'accepted upper layer bound must remain exact',
+);
 const editableDelta = validateChallengeText(
   JSON.stringify({
     ...challenge,

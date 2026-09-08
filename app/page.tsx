@@ -27,7 +27,13 @@ import {
   clonePieces,
   defaultPiece,
   formatScore,
+  LAYER_MAX,
+  LAYER_MIN,
   normalizePiece,
+  PIECE_SIZE_MAX,
+  PIECE_SIZE_MIN,
+  RADIUS_MAX,
+  RADIUS_MIN,
   renderScene,
   validateChallenge,
   validateChallengeText,
@@ -957,8 +963,8 @@ function PieceControls({
         </span>
         <Slider
           aria-label="Width"
-          min={4}
-          max={60}
+          min={PIECE_SIZE_MIN}
+          max={PIECE_SIZE_MAX}
           step={1}
           value={[piece.w ?? 18]}
           onValueChange={(value) => onChange({ w: readSlider(value) })}
@@ -971,8 +977,8 @@ function PieceControls({
         </span>
         <Slider
           aria-label="Height"
-          min={4}
-          max={60}
+          min={PIECE_SIZE_MIN}
+          max={PIECE_SIZE_MAX}
           step={1}
           value={[piece.h ?? 18]}
           onValueChange={(value) => onChange({ h: readSlider(value) })}
@@ -986,8 +992,8 @@ function PieceControls({
           </span>
           <Slider
             aria-label="Radius"
-            min={3}
-            max={32}
+            min={RADIUS_MIN}
+            max={RADIUS_MAX}
             step={1}
             value={[piece.radius ?? 10]}
             onValueChange={(value) => onChange({ radius: readSlider(value) })}
@@ -1015,8 +1021,8 @@ function PieceControls({
         </span>
         <Slider
           aria-label="Layer"
-          min={-2}
-          max={8}
+          min={LAYER_MIN}
+          max={LAYER_MAX}
           step={1}
           value={[piece.layer]}
           onValueChange={(value) => onChange({ layer: readSlider(value) })}

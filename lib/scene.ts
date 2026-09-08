@@ -1,5 +1,11 @@
 export const SCENE_SCHEMA_VERSION = 1 as const;
 export const MAX_CHALLENGE_BYTES = 100_000;
+export const LAYER_MIN = -2;
+export const LAYER_MAX = 8;
+export const PIECE_SIZE_MIN = 4;
+export const PIECE_SIZE_MAX = 60;
+export const RADIUS_MIN = 3;
+export const RADIUS_MAX = 32;
 
 export type PrimitiveKind =
   | 'rect'
@@ -72,10 +78,10 @@ export function normalizePiece(piece: Piece): Piece {
             0,
             1,
           ),
-    layer: Math.round(clamp(Number(piece.layer) || 0, -20, 20)),
-    w: clamp(Number(piece.w ?? 18) || 18, 4, 60),
-    h: clamp(Number(piece.h ?? 18) || 18, 4, 60),
-    radius: clamp(Number(piece.radius ?? 10) || 10, 3, 32),
+    layer: Math.round(clamp(Number(piece.layer) || 0, LAYER_MIN, LAYER_MAX)),
+    w: clamp(Number(piece.w ?? 18) || 18, PIECE_SIZE_MIN, PIECE_SIZE_MAX),
+    h: clamp(Number(piece.h ?? 18) || 18, PIECE_SIZE_MIN, PIECE_SIZE_MAX),
+    radius: clamp(Number(piece.radius ?? 10) || 10, RADIUS_MIN, RADIUS_MAX),
   };
 }
 
@@ -157,7 +163,7 @@ export function validateChallenge(
         ['x', -18, 118],
         ['y', -18, 118],
         ['scale', 0.25, 2.4],
-        ['layer', -20, 20],
+        ['layer', LAYER_MIN, LAYER_MAX],
       ] as const) {
         const numeric = Number(piece[key]);
         if (!Number.isFinite(numeric) || numeric < min || numeric > max) {
@@ -181,8 +187,8 @@ export function validateChallenge(
         errors.push(`${label} piece ${index + 1} has an invalid color.`);
       }
       for (const key of ['w', 'h', 'radius'] as const) {
-        const minimum = key === 'radius' ? 3 : 4;
-        const maximum = key === 'radius' ? 32 : 60;
+        const minimum = key === 'radius' ? RADIUS_MIN : PIECE_SIZE_MIN;
+        const maximum = key === 'radius' ? RADIUS_MAX : PIECE_SIZE_MAX;
         if (
           piece[key] !== undefined &&
           (!Number.isFinite(Number(piece[key])) ||
@@ -207,6 +213,17 @@ export function validateChallenge(
     ) {
       errors.push('Start and target scenes must use the same piece ids.');
     }
+    const targetById = new Map(
+      (targetPieces as Piece[]).map((piece) => [piece.id, piece]),
+    );
+    (pieces as Piece[]).forEach((piece) => {
+      const target = targetById.get(piece.id);
+      if (target && target.kind !== piece.kind) {
+        errors.push(
+          `Piece “${piece.id}” changes primitive kind between start and target.`,
+        );
+      }
+    });
   }
 
   if (errors.length > 0) return { valid: false, errors: errors.slice(0, 8) };
