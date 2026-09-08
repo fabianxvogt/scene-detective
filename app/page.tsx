@@ -1051,6 +1051,7 @@ export default function Home() {
     clonePieces(AUTHORED_CASES[0].pieces),
   );
   const [history, setHistory] = useState<Piece[][]>([]);
+  const [score, setScore] = useState(0);
   const [hydrated, setHydrated] = useState(false);
   const [selectedId, setSelectedId] = useState(AUTHORED_CASES[0].pieces[0].id);
   const [completed, setCompleted] = useState<Record<string, boolean>>({});
@@ -1097,8 +1098,7 @@ export default function Home() {
   const creatorCanvasRef = useRef<HTMLCanvasElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const activeCase = customChallenge ?? AUTHORED_CASES[caseIndex];
-  const score = (() => {
-    if (typeof document === 'undefined') return 0;
+  const calculateScore = useCallback(() => {
     try {
       return visibleScore(
         { background: activeCase.background, pieces: activeCase.targetPieces },
@@ -1107,7 +1107,7 @@ export default function Home() {
     } catch {
       return 0;
     }
-  })();
+  }, [activeCase, pieces]);
   const selectedPiece = pieces.find((piece) => piece.id === selectedId);
   const creatorSelectedPiece = creatorPieces.find(
     (piece) => piece.id === creatorSelectedId,
@@ -1210,6 +1210,13 @@ export default function Home() {
     window.addEventListener('resize', paintCanvases);
     return () => window.removeEventListener('resize', paintCanvases);
   }, [paintCanvases]);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() =>
+      setScore(calculateScore()),
+    );
+    return () => window.cancelAnimationFrame(frame);
+  }, [calculateScore]);
 
   useEffect(() => {
     if (!toast) return;
