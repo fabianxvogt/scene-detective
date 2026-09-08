@@ -14,8 +14,10 @@ and reopen it on another browser/device.
 ## Visible scoring
 
 `lib/scene.ts` renders the target and current compositions to the same 96 × 72
-canvas and compares their composited RGB pixels. The score therefore measures
-what is visible: a fully occluded piece can differ in hidden parameters without
+canvas and compares their composited RGB pixels against the same empty
+background. Foreground contrast weights the comparison, so unchanged backdrop
+area cannot dilute a salient mismatch. The score therefore measures what is
+visible: a fully occluded piece can differ in hidden parameters without
 penalizing the visible image, while an intentional near-miss lowers the score.
 The score is a bounded canonical raster comparison, not a claim of general
 perceptual similarity. Completion currently requires a 96% visible match.

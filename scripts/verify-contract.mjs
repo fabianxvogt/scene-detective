@@ -190,6 +190,39 @@ assert(
   scorePixelData(samePixels, nearPixels, 2, 1) < 100,
   'a visible near-miss must score below 100',
 );
+const backdropPixels = new Uint8ClampedArray([
+  10, 20, 30, 255, 10, 20, 30, 255, 10, 20, 30, 255, 10, 20, 30, 255,
+]);
+const sparseTarget = new Uint8ClampedArray([
+  255, 0, 0, 255, 10, 20, 30, 255, 10, 20, 30, 255, 10, 20, 30, 255,
+]);
+const sparseCurrent = new Uint8ClampedArray([
+  0, 255, 0, 255, 10, 20, 30, 255, 10, 20, 30, 255, 10, 20, 30, 255,
+]);
+const foregroundNormalizedScore = scorePixelData(
+  sparseTarget,
+  sparseCurrent,
+  4,
+  1,
+  backdropPixels,
+);
+assert(
+  foregroundNormalizedScore < 96,
+  'a salient foreground mismatch must fail even when most pixels are unchanged backdrop',
+);
+assert(
+  Math.abs(
+    foregroundNormalizedScore -
+      scorePixelData(
+        sparseTarget.slice(0, 4),
+        sparseCurrent.slice(0, 4),
+        1,
+        1,
+        backdropPixels.slice(0, 4),
+      ),
+  ) < 1e-9,
+  'foreground normalization must not dilute a mismatch by unchanged canvas area',
+);
 
 console.log(
   'Scene Detective contract checks passed: validation, round-trip, bounds, ids, and pixel scoring.',

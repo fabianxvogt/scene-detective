@@ -467,19 +467,19 @@ const AUTHORED_CASES: AuthoredCase[] = [
         w: 64,
         h: 38,
         color: '#d45d5d',
-        layer: 3,
+        layer: 2,
       }),
       p('chimney', 'rect', {
-        x: 74,
-        y: 35,
+        x: 69,
+        y: 29,
         w: 9,
         h: 23,
         color: '#e9bd6b',
-        layer: 4,
+        layer: 5,
       }),
       p('cat', 'triangle', {
-        x: 43,
-        y: 59,
+        x: 28,
+        y: 58,
         w: 16,
         h: 19,
         color: '#64c6b4',
@@ -510,7 +510,7 @@ const AUTHORED_CASES: AuthoredCase[] = [
         y: 72,
         w: 80,
         h: 22,
-        color: '#d05f74',
+        color: '#77506f',
         layer: 1,
       }),
       p('leaf', 'diamond', {
@@ -534,7 +534,7 @@ const AUTHORED_CASES: AuthoredCase[] = [
         y: 70,
         w: 20,
         h: 20,
-        color: '#f6e3a5',
+        color: '#ad7ea8',
         layer: 4,
       }),
       p('stem', 'rect', {
@@ -543,7 +543,7 @@ const AUTHORED_CASES: AuthoredCase[] = [
         w: 5,
         h: 45,
         rotation: 24,
-        color: '#9d75b6',
+        color: '#ef8b68',
         alpha: 0.9,
         layer: 3,
       }),
@@ -592,7 +592,7 @@ const AUTHORED_CASES: AuthoredCase[] = [
         layer: 3,
       }),
     ],
-    'Two colors swapped places. Use the palette as evidence, not decoration.',
+    'The palette was disturbed. Match each color to the target frame.',
     '#6bd3b6',
   ),
   authored(
@@ -676,20 +676,20 @@ const AUTHORED_CASES: AuthoredCase[] = [
         layer: 1,
       }),
       p('far-hill', 'triangle', {
-        x: 39,
-        y: 66,
+        x: 46,
+        y: 61,
         w: 76,
         h: 38,
         color: '#31536f',
-        layer: 3,
+        layer: 4,
       }),
       p('near-hill', 'triangle', {
-        x: 72,
-        y: 75,
+        x: 61,
+        y: 70,
         w: 76,
         h: 45,
         color: '#1b344d',
-        layer: 2,
+        layer: 1,
       }),
       p('window', 'rect', {
         x: 64,
@@ -1296,17 +1296,44 @@ export default function Home() {
         const target = activeCase.targetPieces.find(
           (item) => item.id === piece.id,
         );
-        if (!target) return { piece, target: piece, error: 0 };
+        if (!target)
+          return {
+            piece,
+            target: piece,
+            error: 0,
+            widthError: 0,
+            heightError: 0,
+            radiusError: 0,
+            opacityError: 0,
+          };
         const colorError =
           piece.color.toLowerCase() === target.color.toLowerCase() ? 0 : 25;
+        const widthError = Math.abs((piece.w ?? 18) - (target.w ?? 18));
+        const heightError = Math.abs((piece.h ?? 18) - (target.h ?? 18));
+        const radiusError = Math.abs(
+          (piece.radius ?? 10) - (target.radius ?? 10),
+        );
+        const opacityError = Math.abs((piece.alpha ?? 1) - (target.alpha ?? 1));
         const error =
           Math.abs(piece.x - target.x) +
           Math.abs(piece.y - target.y) +
           Math.abs(piece.rotation - target.rotation) / 12 +
           Math.abs(piece.scale - target.scale) * 18 +
+          widthError +
+          heightError +
+          radiusError * 2 +
+          opacityError * 40 +
           Math.abs(piece.layer - target.layer) * 8 +
           colorError;
-        return { piece, target, error };
+        return {
+          piece,
+          target,
+          error,
+          widthError,
+          heightError,
+          radiusError,
+          opacityError,
+        };
       })
       .sort((a, b) => b.error - a.error);
     const clue = candidates[0];
@@ -1333,6 +1360,18 @@ export default function Home() {
     else if (Math.abs(clue.target.scale - clue.piece.scale) > 0.05)
       setHintText(
         `The ${clue.piece.id.replaceAll('-', ' ')} needs a different scale. Compare its footprint, not its hidden value.`,
+      );
+    else if (clue.widthError > 2 || clue.heightError > 2)
+      setHintText(
+        `Resize the ${clue.piece.id.replaceAll('-', ' ')} to match the target footprint.`,
+      );
+    else if (clue.radiusError > 1)
+      setHintText(
+        `Adjust the ${clue.piece.id.replaceAll('-', ' ')} radius until its halo matches the target.`,
+      );
+    else if (clue.opacityError > 0.05)
+      setHintText(
+        `Tune the ${clue.piece.id.replaceAll('-', ' ')} opacity until it blends like the target.`,
       );
     else if (clue.target.color.toLowerCase() !== clue.piece.color.toLowerCase())
       setHintText(

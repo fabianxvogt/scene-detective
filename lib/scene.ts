@@ -390,11 +390,16 @@ export function renderRaster(snapshot: SceneSnapshot, width = 96, height = 72) {
 export function visibleScore(target: SceneSnapshot, current: SceneSnapshot) {
   const targetPixels = renderRaster(target);
   const currentPixels = renderRaster(current);
+  const backdropPixels = renderRaster({
+    background: target.background,
+    pieces: [],
+  });
   return scorePixelData(
     targetPixels.data,
     currentPixels.data,
     targetPixels.width,
     targetPixels.height,
+    backdropPixels.data,
   );
 }
 
@@ -403,16 +408,37 @@ export function scorePixelData(
   currentPixels: ArrayLike<number>,
   width: number,
   height: number,
+  backdropPixels?: ArrayLike<number>,
 ) {
   let total = 0;
+  let visibleWeight = 0;
+  const useVisibleWeight =
+    backdropPixels !== undefined &&
+    backdropPixels.length === targetPixels.length &&
+    backdropPixels.length === currentPixels.length;
   for (let index = 0; index < targetPixels.length; index += 4) {
     const error =
       Math.abs(targetPixels[index] - currentPixels[index]) * 0.3 +
       Math.abs(targetPixels[index + 1] - currentPixels[index + 1]) * 0.59 +
       Math.abs(targetPixels[index + 2] - currentPixels[index + 2]) * 0.11;
-    total += error;
+    if (useVisibleWeight && backdropPixels) {
+      const targetSignal =
+        Math.abs(targetPixels[index] - backdropPixels[index]) * 0.3 +
+        Math.abs(targetPixels[index + 1] - backdropPixels[index + 1]) * 0.59 +
+        Math.abs(targetPixels[index + 2] - backdropPixels[index + 2]) * 0.11;
+      const currentSignal =
+        Math.abs(currentPixels[index] - backdropPixels[index]) * 0.3 +
+        Math.abs(currentPixels[index + 1] - backdropPixels[index + 1]) * 0.59 +
+        Math.abs(currentPixels[index + 2] - backdropPixels[index + 2]) * 0.11;
+      const weight = Math.max(targetSignal, currentSignal);
+      total += error * weight;
+      visibleWeight += weight;
+    } else total += error;
   }
-  const maxError = width * height * 255;
+  const maxError = useVisibleWeight
+    ? visibleWeight * 255
+    : width * height * 255;
+  if (maxError === 0) return 100;
   return clamp(100 - (total / maxError) * 100, 0, 100);
 }
 
