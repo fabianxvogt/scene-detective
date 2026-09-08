@@ -1346,7 +1346,7 @@ export default function Home() {
   }, [activeCase, pieces]);
 
   const checkCase = useCallback(() => {
-    if (score >= WIN_SCORE) {
+    if (Math.round(score) >= WIN_SCORE) {
       setWon(true);
       setCompleted((value) => ({ ...value, [caseKey]: true }));
       setResultCard(createResultCard(activeCase, pieces, score));
