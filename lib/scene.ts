@@ -64,7 +64,14 @@ export function normalizePiece(piece: Piece): Piece {
     rotation: (((Number(piece.rotation) || 0) % 360) + 360) % 360,
     scale: clamp(Number(piece.scale) || 1, 0.25, 2.4),
     color: HEX_COLOR.test(piece.color) ? piece.color : '#ffffff',
-    alpha: clamp(Number(piece.alpha ?? 1) || 1, 0, 1),
+    alpha:
+      piece.alpha === undefined
+        ? 1
+        : clamp(
+            Number.isFinite(Number(piece.alpha)) ? Number(piece.alpha) : 1,
+            0,
+            1,
+          ),
     layer: Math.round(clamp(Number(piece.layer) || 0, -20, 20)),
     w: clamp(Number(piece.w ?? 18) || 18, 4, 60),
     h: clamp(Number(piece.h ?? 18) || 18, 4, 60),
@@ -161,6 +168,14 @@ export function validateChallenge(
       }
       if (!Number.isFinite(Number(piece.rotation))) {
         errors.push(`${label} piece ${index + 1} has an invalid rotation.`);
+      }
+      if (
+        piece.alpha !== undefined &&
+        (!Number.isFinite(Number(piece.alpha)) ||
+          Number(piece.alpha) < 0 ||
+          Number(piece.alpha) > 1)
+      ) {
+        errors.push(`${label} piece ${index + 1} has an invalid alpha.`);
       }
       if (typeof piece.color !== 'string' || !HEX_COLOR.test(piece.color)) {
         errors.push(`${label} piece ${index + 1} has an invalid color.`);

@@ -42,6 +42,17 @@ if (accepted.valid) {
   );
 }
 
+assert.equal(
+  normalizePiece({ ...start, alpha: 0 }).alpha,
+  0,
+  'transparent pieces must preserve alpha=0',
+);
+assert.equal(
+  validateChallenge({ ...challenge, pieces: [{ ...start, alpha: 2 }] }).valid,
+  false,
+  'alpha outside 0–1 must be rejected',
+);
+
 const roundTrip = validateChallengeText(JSON.stringify(challenge));
 assert.equal(roundTrip.valid, true, 'exported JSON must reopen');
 assert.equal(
