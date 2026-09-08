@@ -1,19 +1,16 @@
 # Scene Detective roadmap
 
-State: **verification**
+State: **release candidate / deployment**
 
 ## Now
 
-- Review the exact candidate source against the six-case and creator contract.
-- Run a fresh-player desktop/narrow-screen playthrough when the serialized
-  browser slot is available.
-- Check save/reopen, malformed import, challenge round-trip and PNG output.
+- Build and package the documentation-inclusive accepted revision.
+- Save and deploy that exact version through the existing Site destination.
+- Verify the public URL and publish the standalone source repository.
 
 ## Next
 
-- Resolve independent review findings without expanding the v1 vocabulary.
-- Rebuild, package and save the accepted exact revision.
-- Deploy to the established private Sites destination after parent acceptance.
+- Keep the six-case vocabulary stable while observing real player use.
 
 ## Later
 
@@ -29,3 +26,9 @@ State: **verification**
 - Keyboard/touch controls, hints, reset, undo, local progress and replay.
 - Bounded creator, validated JSON import/export and PNG result card.
 - Local contract verification and production build pass.
+- Exact runtime `00f31c5be28b310dc586751bf26ad7f8c3030e58` accepted by source and
+  fresh-player review; cases 3–6 measured reset→solved at 82→100%, 92→100%,
+  80→100% and 81→100%.
+- Browser limits recorded: no exact 390px CSS viewport override or full
+  console assertion was available through the in-app browser; owner logs were
+  empty and the available narrow surface showed stacked controls.

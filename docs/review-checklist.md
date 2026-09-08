@@ -26,6 +26,9 @@ Review the exact candidate revision, not a moving working tree.
 
 ## Release gate
 
-Do not call the product fully accepted from source tests alone. Deployment is
-held until independent source review, fresh-player visual/playability review and
-parent acceptance of the exact revision are recorded.
+Do not call the product fully accepted from source tests alone. For the exact
+runtime revision
+`00f31c5be28b310dc586751bf26ad7f8c3030e58`, independent source review,
+fresh-player visual/playability review and parent acceptance are recorded.
+The final build, saved Site version, public URL and standalone source URL must
+still be recorded against the documentation-inclusive deployed revision.

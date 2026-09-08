@@ -3,6 +3,19 @@
 Classification: **INCREMENTAL** product implementation. Evidence labels below
 are **EMPIRICAL** for automated checks and **REPORTED** for the brief.
 
+## Acceptance record
+
+The runtime revision
+`00f31c5be28b310dc586751bf26ad7f8c3030e58` received independent source
+acceptance, fresh-player reconstruction acceptance and parent release
+acceptance. Cases 3–6 were measured in the browser at reset→solved scores of
+82→100%, 92→100%, 80→100% and 81→100%; prior evidence for cases 1–2,
+creator/import round-trip, progress reopen and PNG output was retained.
+
+The in-app browser did not expose an exact 390px CSS viewport override or a
+full console API. An owner calibration run recorded no warning/error entries;
+the available narrow surface showed stacked controls without visible overflow.
+
 ## Player outcome
 
 A curious player can solve six short visual reconstruction cases in a few

@@ -8,9 +8,10 @@ versioned `.scene.json` files.
 
 ## Status
 
-**Building / verification.** The complete v1 journey is implemented locally;
-independent source review, fresh-player playability review and exact-revision
-acceptance are still open. No public deployment is claimed yet.
+**Release candidate.** Exact revision
+`00f31c5be28b310dc586751bf26ad7f8c3030e58` passed independent source review,
+fresh-player playability review and parent acceptance. The final production
+build and public deployment are recorded only after they succeed.
 
 ## Quickstart
 
@@ -47,15 +48,22 @@ npm run build
 
 `verify:contract` covers malformed/oversized challenge input, range and ID
 checks, seed/target round-tripping, identical visible pixels and visible
-near-misses. Human playability and visual quality remain separate acceptance
-gates; source tests do not claim them.
+near-misses. On the accepted runtime revision, independent browser review
+completed all six authored reconstructions; the final four measured reset to
+solved at 82→100%, 92→100%, 80→100% and 81→100%. Human playability and visual
+quality remain separate acceptance gates; source tests do not claim them.
+
+The in-app browser did not expose an exact 390px CSS viewport override or a
+full runtime-console assertion. The owner calibration run recorded no warning
+or error entries, and the responsive controls were visibly stacked and usable
+on the available narrow surface.
 
 ## Hosting
 
-The project is configured as a static Sites build in `.openai/hosting.json`.
-The selected Site remains private and unpublished until independent review and
-the parent task accept the exact revision. Deployment uses the existing Site
-project rather than creating a replacement.
+The project uses the existing Site destination in `.openai/hosting.json`; no
+replacement Site or paid service is required. Deployment uses the exact saved
+version produced from the accepted source state rather than an unsaved local
+build.
 
 ## License
 
