@@ -623,7 +623,7 @@ const AUTHORED_CASES: AuthoredCase[] = [
         y: 70,
         w: 60,
         h: 60,
-        color: '#31536f',
+        color: '#d7b07b',
         layer: 2,
       }),
       p('near-hill', 'triangle', {
@@ -680,7 +680,7 @@ const AUTHORED_CASES: AuthoredCase[] = [
         y: 70,
         w: 60,
         h: 60,
-        color: '#31536f',
+        color: '#d7b07b',
         layer: 4,
       }),
       p('near-hill', 'triangle', {
