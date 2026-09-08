@@ -1,3 +1,13 @@
+<!-- portfolio
+{
+  "title": "Scene Detective",
+  "topic": "Play & products/Games",
+  "type": "product",
+  "description": "Reconstruct layered scenes in six visual deduction cases.",
+  "demo": "https://scene-detective.fabianxvogt.chatgpt.site/"
+}
+-->
+
 # Scene Detective
 
 Scene Detective is a short, browser-first visual reconstruction game. A player
