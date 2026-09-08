@@ -62,6 +62,35 @@ assert.equal(
   false,
   'radius above the canonical renderer range must be rejected',
 );
+const editableDelta = validateChallengeText(
+  JSON.stringify({
+    ...challenge,
+    pieces: [{ ...start, w: 4, h: 12, alpha: 0 }],
+    targetPieces: [{ ...target, w: 20, h: 24, alpha: 0.55 }],
+  }),
+);
+assert.equal(
+  editableDelta.valid,
+  true,
+  'valid size/opacity deltas must remain importable',
+);
+if (editableDelta.valid) {
+  assert.equal(
+    editableDelta.challenge.pieces[0].w,
+    4,
+    'accepted width must remain exact',
+  );
+  assert.equal(
+    editableDelta.challenge.targetPieces[0].h,
+    24,
+    'accepted height must remain exact',
+  );
+  assert.equal(
+    editableDelta.challenge.pieces[0].alpha,
+    0,
+    'accepted opacity must remain exact',
+  );
+}
 const transparentChallenge = {
   ...challenge,
   pieces: [{ ...start, alpha: 0 }],

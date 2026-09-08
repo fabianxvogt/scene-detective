@@ -952,6 +952,64 @@ function PieceControls({
       </label>
       <label className="control-row">
         <span>
+          <span>Width</span>
+          <output>{Math.round(piece.w ?? 18)}</output>
+        </span>
+        <Slider
+          aria-label="Width"
+          min={4}
+          max={60}
+          step={1}
+          value={[piece.w ?? 18]}
+          onValueChange={(value) => onChange({ w: readSlider(value) })}
+        />
+      </label>
+      <label className="control-row">
+        <span>
+          <span>Height</span>
+          <output>{Math.round(piece.h ?? 18)}</output>
+        </span>
+        <Slider
+          aria-label="Height"
+          min={4}
+          max={60}
+          step={1}
+          value={[piece.h ?? 18]}
+          onValueChange={(value) => onChange({ h: readSlider(value) })}
+        />
+      </label>
+      {(piece.kind === 'circle' || piece.kind === 'moon') && (
+        <label className="control-row">
+          <span>
+            <span>Radius</span>
+            <output>{Math.round(piece.radius ?? 10)}</output>
+          </span>
+          <Slider
+            aria-label="Radius"
+            min={3}
+            max={32}
+            step={1}
+            value={[piece.radius ?? 10]}
+            onValueChange={(value) => onChange({ radius: readSlider(value) })}
+          />
+        </label>
+      )}
+      <label className="control-row">
+        <span>
+          <span>Opacity</span>
+          <output>{Math.round((piece.alpha ?? 1) * 100)}%</output>
+        </span>
+        <Slider
+          aria-label="Opacity"
+          min={0}
+          max={1}
+          step={0.01}
+          value={[piece.alpha ?? 1]}
+          onValueChange={(value) => onChange({ alpha: readSlider(value) })}
+        />
+      </label>
+      <label className="control-row">
+        <span>
           <span>Layer</span>
           <output>{piece.layer}</output>
         </span>
