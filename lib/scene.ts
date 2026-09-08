@@ -181,11 +181,13 @@ export function validateChallenge(
         errors.push(`${label} piece ${index + 1} has an invalid color.`);
       }
       for (const key of ['w', 'h', 'radius'] as const) {
+        const minimum = key === 'radius' ? 3 : 4;
+        const maximum = key === 'radius' ? 32 : 60;
         if (
           piece[key] !== undefined &&
           (!Number.isFinite(Number(piece[key])) ||
-            Number(piece[key]) < 3 ||
-            Number(piece[key]) > 60)
+            Number(piece[key]) < minimum ||
+            Number(piece[key]) > maximum)
         ) {
           errors.push(`${label} piece ${index + 1} has an invalid ${key}.`);
         }

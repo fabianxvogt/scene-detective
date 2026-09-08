@@ -52,6 +52,16 @@ assert.equal(
   false,
   'alpha outside 0–1 must be rejected',
 );
+assert.equal(
+  validateChallenge({ ...challenge, pieces: [{ ...start, w: 3 }] }).valid,
+  false,
+  'width below the canonical renderer range must be rejected',
+);
+assert.equal(
+  validateChallenge({ ...challenge, pieces: [{ ...start, radius: 33 }] }).valid,
+  false,
+  'radius above the canonical renderer range must be rejected',
+);
 const transparentChallenge = {
   ...challenge,
   pieces: [{ ...start, alpha: 0 }],
