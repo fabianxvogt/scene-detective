@@ -1,16 +1,15 @@
 # Scene Detective roadmap
 
-State: **release candidate / deployment**
+State: **released publicly**
 
 ## Now
 
-- Build and package the documentation-inclusive accepted revision.
-- Save and deploy that exact version through the existing Site destination.
-- Verify the public URL and publish the standalone source repository.
+- Observe real player use on the public app.
+- Keep the deployed runtime SHA and documentation head distinct for traceability.
 
 ## Next
 
-- Keep the six-case vocabulary stable while observing real player use.
+- Consider a small curated gallery only if real use shows it improves replay.
 
 ## Later
 
@@ -32,3 +31,8 @@ State: **release candidate / deployment**
 - Browser limits recorded: no exact 390px CSS viewport override or full
   console assertion was available through the in-app browser; owner logs were
   empty and the available narrow surface showed stacked controls.
+- Public Site version 3 is live at
+  https://scene-detective.fabianxvogt.chatgpt.site from immutable runtime SHA
+  `79e513a156462d4f569f29282fb2718f84f5e6d7`.
+- Public source is available at
+  https://github.com/fabianxvogt/scene-detective.

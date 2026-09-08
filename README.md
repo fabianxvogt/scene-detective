@@ -8,10 +8,11 @@ versioned `.scene.json` files.
 
 ## Status
 
-**Release candidate.** Exact revision
-`00f31c5be28b310dc586751bf26ad7f8c3030e58` passed independent source review,
-fresh-player playability review and parent acceptance. The final production
-build and public deployment are recorded only after they succeed.
+**Released publicly.** Site version 3 is deployed from immutable runtime SHA
+`79e513a156462d4f569f29282fb2718f84f5e6d7` after independent source review,
+fresh-player playability review and parent acceptance. The documentation-only
+source head may be newer than the deployed runtime; no product code changed
+after that release.
 
 ## Quickstart
 
@@ -64,6 +65,10 @@ The project uses the existing Site destination in `.openai/hosting.json`; no
 replacement Site or paid service is required. Deployment uses the exact saved
 version produced from the accepted source state rather than an unsaved local
 build.
+
+Live app: [scene-detective.fabianxvogt.chatgpt.site](https://scene-detective.fabianxvogt.chatgpt.site)
+
+Public source: [github.com/fabianxvogt/scene-detective](https://github.com/fabianxvogt/scene-detective)
 
 ## License
 

@@ -31,4 +31,7 @@ runtime revision
 `00f31c5be28b310dc586751bf26ad7f8c3030e58`, independent source review,
 fresh-player visual/playability review and parent acceptance are recorded.
 The final build, saved Site version, public URL and standalone source URL must
-still be recorded against the documentation-inclusive deployed revision.
+be recorded against the documentation-inclusive deployed revision. They are
+recorded as Site version 3 at
+`79e513a156462d4f569f29282fb2718f84f5e6d7`, with the public app and source
+links in the project README and contract notes.

@@ -16,6 +16,15 @@ The in-app browser did not expose an exact 390px CSS viewport override or a
 full console API. An owner calibration run recorded no warning/error entries;
 the available narrow surface showed stacked controls without visible overflow.
 
+## Deployment record
+
+Site version 3 is publicly deployed at
+[scene-detective.fabianxvogt.chatgpt.site](https://scene-detective.fabianxvogt.chatgpt.site)
+from immutable runtime SHA
+`79e513a156462d4f569f29282fb2718f84f5e6d7`. The standalone public source is
+[github.com/fabianxvogt/scene-detective](https://github.com/fabianxvogt/scene-detective).
+Documentation-only commits after that SHA do not alter the deployed runtime.
+
 ## Player outcome
 
 A curious player can solve six short visual reconstruction cases in a few
